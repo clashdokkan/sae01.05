@@ -1,9 +1,26 @@
 #python -m markdown rapport.md > rapport.html commande pour pouvoir tranformer le fichier en fichier html  
 import csv
 import re
+import tkinter as tk
+from tkinter import filedialog
+import os
+def choisir_fichier():
+    root = tk.Tk()
+    root.withdraw()  # cache la fenêtre principale
+    fichier = filedialog.askopenfilename(
+        title="Sélectionnez le fichier de capture",
+        filetypes=[("Fichiers texte", "*.txt"), ("Tous les fichiers", "*.*")]
+    )
+    return fichier
+input_file = choisir_fichier()
 
-input_file = "capture.txt"
-output_file = "capture.csv"
+if not input_file:
+    print("❌ Aucun fichier sélectionné")
+    exit()
+
+output_file = os.path.splitext(input_file)[0] + ".csv"
+
+#output_file = "capture.csv"
 
 # Regex souple pour toutes les lignes IP
 pattern = re.compile(
